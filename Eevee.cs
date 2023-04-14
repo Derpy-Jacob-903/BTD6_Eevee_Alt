@@ -23,7 +23,7 @@ namespace EeveeAlt
     public class EeveeJohto : ModTower //Espeon-Sylveon-Umbreon
     {
         public override TowerSet TowerSet => TowerSet.Magic;
-        public override string Name => "EeveeJotoe";
+        public override string Name => "EeveeJohto";
         public override string BaseTower => TowerType.Druid;
         public override int Cost => 400;
 
@@ -41,6 +41,7 @@ namespace EeveeAlt
             attackModel.range += 10;
 
             var projectile = attackModel.weapons[0].projectile;
+            attackModel.weapons[0].projectile = Game.instance.model.GetTowerFromId("Druid-000").GetAttackModel().weapons[0].projectile.Duplicate();
             projectile.pierce += 2;
             towerModel.ApplyDisplay<EeveeDisplay>();
         }
