@@ -24,7 +24,7 @@ namespace EeveeAlt
     {
         public override TowerSet TowerSet => TowerSet.Magic;
         public override string Name => "EeveeJohto";
-        public override string BaseTower => TowerType.Druid;
+        public override string BaseTower => TowerType.DartMonkey;
         public override int Cost => 400;
 
         public override int TopPathUpgrades => 5;
@@ -36,13 +36,14 @@ namespace EeveeAlt
 
         public override void ModifyBaseTowerModel(TowerModel towerModel)
         {
-            towerModel.range += 10;
+            //towerModel.range += 10;
             var attackModel = towerModel.GetAttackModel();
-            attackModel.range += 10;
-
+            //attackModel.range += 10;
+            
             var projectile = attackModel.weapons[0].projectile;
             attackModel.weapons[0].projectile = Game.instance.model.GetTowerFromId("Druid-000").GetAttackModel().weapons[0].projectile.Duplicate();
-            projectile.pierce += 2;
+            //projectile.pierce += 2;
+            tower.GetWeapon().emission = new ArcEmissionModel("ArcEmissionModel_", 3, 0, 15, null, false);
             towerModel.ApplyDisplay<EeveeDisplay>();
         }
         
