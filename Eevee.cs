@@ -41,9 +41,11 @@ namespace EeveeAlt
             //attackModel.range += 10;
             
             var projectile = attackModel.weapons[0].projectile;
-            attackModel.weapons[0].projectile = Game.instance.model.GetTowerFromId("Druid-000").GetAttackModel().weapons[0].projectile.Duplicate();
+            projectile = Game.instance.model.GetTowerFromId("Druid-000").GetAttackModel().weapons[0].projectile.Duplicate();
+            projectile.pierce = 2;
             //projectile.pierce += 2;
-            tower.GetWeapon().emission = new ArcEmissionModel("ArcEmissionModel_", 3, 0, 15, null, false);
+            //projectile.pierce += 2;
+            towerModel.GetWeapon().emission = new ArcEmissionModel("ArcEmissionModel_", 3, 0, 15, null, false);
             towerModel.ApplyDisplay<EeveeDisplay>();
         }
         
