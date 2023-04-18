@@ -132,6 +132,7 @@ namespace AltEevee
         public override void ModifyDisplayNode(UnityDisplayNode node)
         {
             NodeLoader.NodeLoader.LoadNode(node, "Eevee", mod);
+            SetMeshOutlineColor(node, new UnityEngine.Color(211, 211, 211));
         }
     }
 }
