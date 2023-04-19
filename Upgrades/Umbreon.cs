@@ -19,7 +19,7 @@ namespace AltEevee.Upgrades
         public override int Cost => 300; //300+300+300
         public override string Portrait => "FlareonPortrait";
         public override SpriteReference IconReference => Game.instance.model.GetTowerFromId("MonkeyAce-010").GetUpgrade(MIDDLE, 2).icon;
-        public override int Priority => 10; 
+        public override int Priority => 11; //a
         public override string Description => "Evolves into Umbreon, allowing Camo Bloon detection. Throws arrows that deal extra damage to Camo, Lead (if damagable), Black and White Bloons.";
 
         public override void ApplyUpgrade(TowerModel towerModel)

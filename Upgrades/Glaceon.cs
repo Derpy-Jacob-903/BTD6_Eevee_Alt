@@ -48,13 +48,43 @@ namespace AltEevee.Upgrades.MiddlePath
             towerModel.ApplyDisplay<GlaceonDisplay>();
             //}
         }
-        public class GlaceonDisplay : ModDisplay
+
+        public class Snowscape : ModUpgrade<AltEevee.EeveeSinnoh>
         {
-            public override string BaseDisplay => Generic2dDisplay;
-            public override void ModifyDisplayNode(UnityDisplayNode node)
+            public override int Path => BOTTOM;
+            public override int Tier => 4;
+            public override int Cost => 2500;
+            public override string Portrait => "GlaceonPortrait";
+            public override SpriteReference IconReference => Game.instance.model.GetTowerFromId("IceMonkey-001").GetUpgrade(BOTTOM, 1).icon;
+            public override int Priority => 10;
+            public override string Description => "Evolving Eevee to Glaceon and faster attack speed";
+
+            public override void ApplyUpgrade(TowerModel towerModel)
             {
-                NodeLoader.NodeLoader.LoadNode(node, "Glaceon", mod);
+                var attackModel = towerModel.GetAttackModel();
+                attackModel.AddWeapon(Game.instance.model.GetTowerFromId("IceMonkey-300").GetAttackModel().weapons[0].Duplicate());
+                towerModel.GetAttackModel().weapons[1].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.White;
+                //attackModel.weapons[0].projectile = Game.instance.model.GetTowerFromId("SentryCold").GetAttackModel().weapons[0].projectile.Duplicate();
+                //towerModel.GetWeapon().rate *= 0.7f;
+                var projectile = attackModel.weapons[0].projectile;
+                projectile.pierce += 18;
+                var projectileModel = towerModel.GetAttackModel().GetDescendant<ProjectileModel>();
+                //projectileModel.GetDamageModel().damage = 8; // 1
+                //projectileModel.GetDamageModel().immuneBloonProperties = BloonProperties.White; //Can damage Frozen Bloons
+                //projectile.GetDamageModel().damage = 1; //Cold Sentry projectile has no DamageModel?
+
+                //attackModel.weapons[0].projectile.SetHitCamo(true);
+                towerModel.ApplyDisplay<GlaceonDisplay>();
+                //}
+            }
+        }
+        public class GlaceonDisplay : ModDisplay
+            {
+                public override string BaseDisplay => Generic2dDisplay;
+                public override void ModifyDisplayNode(UnityDisplayNode node)
+                {
+                    NodeLoader.NodeLoader.LoadNode(node, "Glaceon", mod);
+                }
             }
         }
     }
-}

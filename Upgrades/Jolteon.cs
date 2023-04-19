@@ -24,7 +24,7 @@ namespace AltEevee.Upgrades
         public override void ApplyUpgrade(TowerModel towerModel)
         {
             var attackModel = towerModel.GetAttackModel();
-            attackModel.weapons[0].projectile = Game.instance.model.GetTowerFromId("SentryEnergy").GetAttackModel().weapons[0].projectile.Duplicate();
+            attackModel.weapons[0].projectile = Game.instance.model.GetTowerFromId("DartlingGunner-300").GetAttackModel().weapons[0].projectile.Duplicate();
             towerModel.GetAttackModel().weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.Purple;
             var projectile = attackModel.weapons[0].projectile;
             projectile.pierce = 4;

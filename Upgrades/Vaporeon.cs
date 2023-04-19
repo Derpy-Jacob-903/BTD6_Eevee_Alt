@@ -9,6 +9,7 @@ using Il2Cpp;
 using Il2CppAssets.Scripts.Models.Towers.Filters;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
 using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
+using Il2CppAssets.Scripts.Models.Map;
 
 namespace AltEevee.Upgrades.MiddlePath
 {
@@ -26,6 +27,7 @@ namespace AltEevee.Upgrades.MiddlePath
         {
             var attackModel = towerModel.GetAttackModel();
             attackModel.weapons[0].projectile = Game.instance.model.GetTowerFromId("MonkeySub").GetAttackModel().weapons[0].projectile.Duplicate();
+            towerModel.areaTypes = Game.instance.model.GetTowerFromId("PatFusty").areaTypes;
 
             attackModel.AddBehavior(new TargetStrongSharedRangeModel("TargetStrongShared", false, true, false, true));
             attackModel.AddBehavior(new TargetFirstSharedRangeModel("TargetFirstShared", false, true, false, true));
