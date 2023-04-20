@@ -28,13 +28,14 @@ namespace AltEevee.Upgrades.MiddlePath
             var attackModel = towerModel.GetAttackModel();
             //attackModel.weapons[0].projectile = Game.instance.model.GetTowerFromId("SentryCold").GetAttackModel().weapons[0].projectile.Duplicate();
             attackModel.weapons[0].projectile.AddBehavior(Game.instance.model.GetTowerFromId("IceMonkey-320").GetAttackModel().weapons[0].projectile.GetBehavior<FreezeModel>().Duplicate());
-            attackModel.weapons[0].projectile.GetBehavior<FreezeModel>().layers = 0;
+            attackModel.weapons[0].projectile.GetBehavior<FreezeModel>().layers *= 0;
             attackModel.weapons[0].projectile.GetBehavior<FreezeModel>().speed = 0.01f;
             attackModel.weapons[0].projectile.GetBehavior<FreezeModel>().canFreezeMoabs = true;
 
             
-            attackModel.AddWeapon(Game.instance.model.GetTowerFromId("Druid-200").GetAttackModel().weapons[1].Duplicate());
+            attackModel.AddWeapon(Game.instance.model.GetTowerFromId("WizardMonkey-010").GetAttackModel("Fireball").weapons[0].Duplicate());
             towerModel.GetAttackModel().weapons[1].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.Purple;
+            towerModel.GetAttackModel().weapons[1].projectile.RemoveBehavior<DamageModel>();
             towerModel.GetAttackModel().weapons[1].projectile.RemoveBehavior<RemoveBloonModifiersModel>();
             towerModel.GetAttackModel().weapons[1].projectile.RemoveBehavior<FilterOnlyCamoInModel>();
             attackModel.weapons[1].projectile.AddBehavior(Game.instance.model.GetTowerFromId("IceMonkey-320").GetAttackModel().weapons[0].projectile.GetBehavior<FreezeModel>().Duplicate());

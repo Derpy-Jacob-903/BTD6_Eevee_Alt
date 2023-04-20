@@ -10,6 +10,7 @@ using Il2CppAssets.Scripts.Models.Towers.Filters;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
 using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
 using Il2CppAssets.Scripts.Models.Map;
+using Il2CppAssets.Scripts.Simulation.Behaviors;
 
 namespace AltEevee.Upgrades.MiddlePath
 {
@@ -26,30 +27,21 @@ namespace AltEevee.Upgrades.MiddlePath
         public override void ApplyUpgrade(TowerModel towerModel)
         {
             var attackModel = towerModel.GetAttackModel();
-            attackModel.weapons[0].projectile = Game.instance.model.GetTowerFromId("MonkeySub").GetAttackModel().weapons[0].projectile.Duplicate();
+            //attackModel.weapons[0].projectile = Game.instance.model.GetTowerFromId("MonkeySub").GetAttackModel().weapons[0].projectile.Duplicate();
+            var baseProjectile = Game.instance.model.GetTowerFromId("MonkeySub").GetAttackModel().weapons[0].projectile.Duplicate(); //000 Sub projectile
+            var dartProjectile = Game.instance.model.GetTowerFromId("DartMonkey").GetAttackModel().weapons[0].projectile.Duplicate(); //000 Dart projectile
             towerModel.areaTypes = Game.instance.model.GetTowerFromId("PatFusty").areaTypes;
 
             attackModel.AddBehavior(new TargetStrongSharedRangeModel("TargetStrongShared", false, true, false, true));
             attackModel.AddBehavior(new TargetFirstSharedRangeModel("TargetFirstShared", false, true, false, true));
-            //towerModel.GetWeapon().rate *= 0.7f;
+
             var projectile = attackModel.weapons[0].projectile;
-            projectile.pierce = 2;
-            var projectileModel = towerModel.GetAttackModel().GetDescendant<ProjectileModel>();
-            projectileModel.GetDamageModel().damage = 1; // 1
-            //projectileModel.GetDamageModel().immuneBloonProperties = BloonProperties.White; //Can damage Frozen Bloons
-            //foreach (var weaponModel in towerModel.GetWeapons())
-            //{
-            //    weaponModel.RemoveBehavior(ProjectileFilterModel);
-            //}
-            //foreach (var weaponModel in towerModel.GetWeapons())
-            //towerModel.GetAttackModel().AddBehavior(new TargetStrongSharedRangeModel("TargetStrongShared", false, true, false, true)); // for vaporeon
-            //var fire = Game.instance.model.GetTower(TowerType.Druid, 0, 0, 0).GetAttackModel().weapons[0].projectile.GetBehavior<BaseProjectile_>().projectile.GetDamageModel()>();
-            //projectile.ProjectileBehaviorExt.AddProjectileBehavior(Game.instance.model.GetTowerFromId("Druid").GetAttackModel().weapons[0].projectile.Duplicate());
-            //towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(fire);
 
-            //projectile.GetDamageModel().damage = 1; //Cold Sentry projectile has no DamageModel?
-
-            //attackModel.weapons[0].projectile.SetHitCamo(true);
+            projectile.AddBehavior(baseProjectile.GetBehavior<TrackTargetModel>());
+            projectile.ApplyDisplay<SubDartDisplay>();
+            //projectile.pierce = 2;
+            //var projectileModel = towerModel.GetAttackModel().GetDescendant<ProjectileModel>();
+            //projectileModel.GetDamageModel().damage = 1; // 1
             towerModel.ApplyDisplay<GlaceonDisplay>();
             //}
         }
@@ -60,6 +52,10 @@ namespace AltEevee.Upgrades.MiddlePath
             {
                 NodeLoader.NodeLoader.LoadNode(node, "Glaceon", mod);
             }
+        }
+        public class SubDartDisplay : ModDisplay
+        {
+            public override string BaseDisplay => "e01ccafb0b98cc942b501b16dc4f7994";
         }
     }
 }

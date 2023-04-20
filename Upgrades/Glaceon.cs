@@ -63,7 +63,7 @@ namespace AltEevee.Upgrades.MiddlePath
             {
                 var attackModel = towerModel.GetAttackModel();
                 attackModel.AddWeapon(Game.instance.model.GetTowerFromId("IceMonkey-300").GetAttackModel().weapons[0].Duplicate());
-                towerModel.GetAttackModel().weapons[1].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.White;
+                //towerModel.GetAttackModel().weapons[1].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.White; //System.NullReferenceException
                 //attackModel.weapons[0].projectile = Game.instance.model.GetTowerFromId("SentryCold").GetAttackModel().weapons[0].projectile.Duplicate();
                 //towerModel.GetWeapon().rate *= 0.7f;
                 var projectile = attackModel.weapons[0].projectile;

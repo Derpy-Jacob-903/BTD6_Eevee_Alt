@@ -11,6 +11,7 @@ using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
 using UnityEngine.UI;
 using UnityEngine;
+using static Il2CppNinjaKiwi.LiNK.Endpoints.User_Find;
 
 [assembly: MelonInfo(typeof(AltEevee.Main), ModHelperData.Name, ModHelperData.Version, ModHelperData.RepoOwner)]
 [assembly: MelonGame("Ninja Kiwi", "BloonsTD6")]
@@ -56,7 +57,7 @@ namespace AltEevee
             projectile.GetDamageModel().damage = 1;
             //projectile.pierce += 2;
             towerModel.GetWeapon().emission = new ArcEmissionModel("ArcEmissionModel_", 3, 0, 30, null, false);
-            towerModel.ApplyDisplay<EeveeDisplay>();
+            //towerModel.ApplyDisplay<EeveeDisplay>();
         }
         public override bool IsValidCrosspath(int[] tiers) =>
         ModHelper.HasMod("UltimateCrosspathing") || base.IsValidCrosspath(tiers);
@@ -90,7 +91,7 @@ namespace AltEevee
             projectile.GetDamageModel().damage = 1;
             //projectile.pierce += 2;
             towerModel.GetWeapon().emission = new ArcEmissionModel("ArcEmissionModel_", 3, 0, 30, null, false);
-            towerModel.ApplyDisplay<EeveeDisplay>();
+            //towerModel.ApplyDisplay<EeveeDisplay>();
         }
         public override bool IsValidCrosspath(int[] tiers) =>
         ModHelper.HasMod("UltimateCrosspathing") || base.IsValidCrosspath(tiers);
@@ -125,6 +126,7 @@ namespace AltEevee
             projectile.GetDamageModel().damage = 1;
             //projectile.pierce += 2;
             towerModel.GetWeapon().emission = new ArcEmissionModel("ArcEmissionModel_", 3, 0, 30, null, false);
+            //towerModel.ApplyDisplay<>;
             towerModel.ApplyDisplay<EeveeDisplay>();
         }
         public override bool IsValidCrosspath(int[] tiers) =>
@@ -140,15 +142,43 @@ namespace AltEevee
     public class EeveeDisplay : ModDisplay
     {
         //public override string BaseDisplay => Generic2dDisplay;
-        //public override string BaseDisplay => GetDisplay(Game.instance.model.GetTowerFromId("DartMonkey-110"));
+        //public override string BaseDisplayReference => GetDisplay(TowerType.DartMonkey);
         //private static readonly int OutlineColor = Shader.PropertyToID("_OutlineColor");
         public override void ModifyDisplayNode(UnityDisplayNode node)
         {
             //NodeLoader.NodeLoader.LoadNode(node, "Eevee", mod);
             //node.PrintInfo();
 #if DEBUG
+            GetDisplay("DartMonkey", 1, 0, 0);
             node.SaveMeshTexture();
             node.PrintInfo();
+
+            GetDisplay("DartMonkey", 2, 0, 0);
+            node.SaveMeshTexture();
+            //node.PrintInfo();
+
+            GetDisplay("DartMonkey", 0, 1, 0);
+            node.SaveMeshTexture();
+            //node.PrintInfo();
+
+            GetDisplay("DartMonkey", 0, 2, 0);
+            node.SaveMeshTexture();
+            //node.PrintInfo();
+
+            GetDisplay("DartMonkey", 0, 0, 1);
+            node.SaveMeshTexture();
+            //node.PrintInfo();
+
+            GetDisplay("DartMonkey", 0, 0, 2);
+            node.SaveMeshTexture();
+            //node.PrintInfo();
+
+            GetDisplay("DartMonkey", 0, 4, 0);
+            node.SaveMeshTexture();
+
+            GetDisplay("DartMonkey", 0, 0, 3);
+            node.SaveMeshTexture();
+
 
 #endif
             //RendererExt.SetOutlineColor(this Renderer renderer, Color color)

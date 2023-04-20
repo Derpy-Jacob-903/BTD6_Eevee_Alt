@@ -43,7 +43,7 @@ namespace AltEevee.UpgradesKanto
         {
             var attackModel = towerModel.GetAttackModel();
             var projectile = attackModel.weapons[0].projectile;
-            projectile.GetDamageModel().damage += 2;
+            projectile.GetDamageModel().damage += 1;
             //projectile.GetDamageModel().damage += 1;
             //projectile.GetDamageModel().damage += 1;
         }
