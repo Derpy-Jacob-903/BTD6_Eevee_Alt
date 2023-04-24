@@ -42,7 +42,7 @@ namespace AltEevee.Upgrades
         public override int Tier => 4;
         public override int Cost => 5000;
         public override string Portrait => "BlitzaPortrait";
-        public override SpriteReference IconReference => Game.instance.model.GetTowerFromId("Druid-200").GetUpgrade(TOP, 4).icon;
+        public override SpriteReference IconReference => Game.instance.model.GetTowerFromId("Druid-400").GetUpgrade(TOP, 4).icon;
         public override string Description => "Evolving Eevee to Jolteon and increases the attack speed and range";
 
         public override void ApplyUpgrade(TowerModel towerModel)
@@ -56,7 +56,7 @@ namespace AltEevee.Upgrades
             //
             attackModel.AddWeapon(Game.instance.model.GetTowerFromId("Druid-400").GetAttackModel().weapons[2].Duplicate());
             towerModel.GetAttackModel().weapons[2].rate *= 10f;
-            var projectile = attackModel.weapons[0].projectile;
+            var projectile = attackModel.weapons[2].projectile;
             projectile.GetDamageModel().damage *= 10;
         }
     }
