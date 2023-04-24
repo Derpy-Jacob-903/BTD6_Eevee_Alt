@@ -52,7 +52,7 @@ namespace AltEevee.Upgrades.MiddlePath
             var projectileModel = towerModel.GetAttackModel().GetDescendant<ProjectileModel>();
             //projectileModel.GetDamageModel().damage = 8; // 1
             //projectileModel.GetDamageModel().immuneBloonProperties = BloonProperties.White;
-            towerModel.ApplyDisplay<GlaceonDisplay>();
+            towerModel.ApplyDisplay<SylveonDisplay>();
             //}
         }
 
@@ -71,14 +71,15 @@ namespace AltEevee.Upgrades.MiddlePath
                 var attackModel = towerModel.GetAttackModel();
                 var ability = Game.instance.model.GetTower(TowerType.MonkeyBuccaneer, 0, 5, 0).GetAbility().Duplicate();
                 ability.cooldown *= 1f;
+                towerModel.AddBehavior(ability);
                 //var projectile = attackModel.weapons[0].projectile;
                 //projectile.pierce += 18;
                 var projectileModel = towerModel.GetAttackModel().GetDescendant<ProjectileModel>();
-                towerModel.ApplyDisplay<GlaceonDisplay>();
+                towerModel.ApplyDisplay<SylveonDisplay>();
                 //}
             }
         }
-        public class GlaceonDisplay : ModDisplay
+        public class SylveonDisplay : ModDisplay
             {
                 public override string BaseDisplay => Generic2dDisplay;
                 public override void ModifyDisplayNode(UnityDisplayNode node)
