@@ -36,7 +36,7 @@ namespace AltEevee
 
         public override int TopPathUpgrades => 4;
         public override int MiddlePathUpgrades => 2;
-        public override int BottomPathUpgrades => 3;
+        public override int BottomPathUpgrades => 4;
         public override string Description => "A Pokemon-tower that throws 3 darts at a time. Evolves into Espeon, Sylveon, and Umbreon";
 
         public override string DisplayName => "Johto Eevee";

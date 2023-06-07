@@ -9,6 +9,11 @@ using BTD_Mod_Helper.Api.Display;
 using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors;
+using AltEevee.Upgrades.MiddlePath;
+using static AltEevee.Upgrades.MiddlePath.Glaceon;
+using Il2CppAssets.Scripts.Models.Bloons.Behaviors;
+using Il2Cpp;
+using BTD_Mod_Helper.Api.Enums;
 
 namespace AltEevee.Upgrades
 {
@@ -20,7 +25,9 @@ namespace AltEevee.Upgrades
         public override string Portrait => "FlareonPortrait";
         public override SpriteReference IconReference => Game.instance.model.GetTowerFromId("MonkeyAce-010").GetUpgrade(MIDDLE, 2).icon;
         public override int Priority => 11; //a
-        public override string Description => "Evolves into Umbreon, allowing Camo Bloon detection. Throws arrows that deal extra damage to Camo, Lead (if damagable), Black and White Bloons.";
+
+        public override string Description => "Evolves into Umbreon, allowing Camo Bloon detection. Throws arrows that posion Bloons.";
+        //public override string Description => "Evolves into Umbreon, allowing Camo Bloon detection. Throws arrows that deal extra damage to Camo, Lead (if damagable), Black and White Bloons.";
 
         public override void ApplyUpgrade(TowerModel towerModel)
         {
@@ -31,11 +38,11 @@ namespace AltEevee.Upgrades
             towerModel.GetAttackModel().AddBehavior(new TargetFirstPrioCamoModel("FirstPrioCamo", true, false));
 
             towerModel.towerSelectionMenuThemeId = "Camo";
-            towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("CamoBloonDamageMultiplier", "Camo", 4, 0, false, false));
-            towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("LeadBloonDamageMultiplier", "Lead", 2, 0, false, false));
-            towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("BlackBloonDamageMultiplier", "Black", 1, 1, false, false));
-            towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("WhiteBloonDamageMultiplier", "White", 1, 1, false, false));
-            towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("ZebraBloonDamageMultiplier", "Zebra", 1, 1, false, false));
+           // towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("CamoBloonDamageMultiplier", "Camo", 4, 0, false, false));
+            //towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("LeadBloonDamageMultiplier", "Lead", 2, 0, false, false));
+            //towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("BlackBloonDamageMultiplier", "Black", 1, 1, false, false));
+            //towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("WhiteBloonDamageMultiplier", "White", 1, 1, false, false));
+            //towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("ZebraBloonDamageMultiplier", "Zebra", 1, 1, false, false));
 
             var attackModel = towerModel.GetAttackModel(); 
             var projectileModel = attackModel.GetDescendant<ProjectileModel>();
@@ -43,10 +50,62 @@ namespace AltEevee.Upgrades
             attackModel.weapons[0].projectile = Game.instance.model.GetTowerFromId("DartMonkey-003").GetAttackModel().weapons[0].projectile.Duplicate();
             //towerModel.GetWeapon().rate *= 0.5f;
             //attackModel.weapons[0].projectile.SetHitCamo(true);
+            towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(Game.instance.model.GetTowerFromId("Alchemist-030").GetAttackModel().weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetBehavior<AddBehaviorToBloonModel>().Duplicate());
+            towerModel.GetAttackModel().weapons[0].projectile.GetBehavior<AddBehaviorToBloonModel>().GetBehavior<DamageOverTimeModel>().immuneBloonProperties = BloonProperties.Lead;
 
             var projectile = attackModel.weapons[0].projectile;
-            projectile.pierce = 2;
-            projectile.GetDamageModel().damage = 1;
+            projectile.pierce = 4;
+            projectile.GetDamageModel().damage = 3;
+
+            towerModel.range += 20;
+            attackModel.range += 20;
+
+            //var fire = Game.instance.model.GetTower(TowerType.MortarMonkey, 2, 0, 2).GetAttackModel().weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetBehavior<AddBehaviorToBloonModel>();
+            //towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(fire);
+            //towerModel.GetAttackModel().weapons[0].projectile.collisionPasses = new[] { 1, 0 };
+            towerModel.ApplyDisplay<GlaceonDisplay>();
+        }
+    }
+    public class Venoshock : ModUpgrade<AltEevee.EeveeJohto>
+    {
+        public override int Path => BOTTOM;
+        public override int Tier => 4;
+        public override int Cost => 300; //300+300+300
+        public override string Portrait => "FlareonPortrait";
+        public override SpriteReference IconReference => Game.instance.model.GetTowerFromId("MonkeyAce-010").GetUpgrade(MIDDLE, 2).icon;
+        public override int Priority => 10; //a
+
+        public override string Description => "Evolves into Umbreon, allowing Camo Bloon detection. Throws arrows that posion Bloons.";
+        //public override string Description => "Evolves into Umbreon, allowing Camo Bloon detection. Throws arrows that deal extra damage to Camo, Lead (if damagable), Black and White Bloons.";
+
+        public override void ApplyUpgrade(TowerModel towerModel)
+        {
+
+            towerModel.AddBehavior(new OverrideCamoDetectionModel("CamoDetect", true));
+
+            towerModel.GetAttackModel().AddBehavior(new TargetStrongPrioCamoModel("StrongPrioCamo", true, false));
+            towerModel.GetAttackModel().AddBehavior(new TargetFirstPrioCamoModel("FirstPrioCamo", true, false));
+            
+            towerModel.towerSelectionMenuThemeId = "Camo";
+            // towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("CamoBloonDamageMultiplier", "Camo", 4, 0, false, false));
+            towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(new DamageModifierForModifiersModel("PoisonDamageMultiplier", "alchemist:acid", 2, 0));
+            towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(new DamageModifierForBloonStateModel("VenoshockDamageMultiplier", "alchemist:acid,UnstableExplosion", 2, 0, false, true, false));
+            //towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("BlackBloonDamageMultiplier", "Black", 1, 1, false, false));
+            //towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("WhiteBloonDamageMultiplier", "White", 1, 1, false, false));
+            //towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("ZebraBloonDamageMultiplier", "Zebra", 1, 1, false, false));
+
+            var attackModel = towerModel.GetAttackModel();
+            var projectileModel = attackModel.GetDescendant<ProjectileModel>();
+            //projectileModel.pierce += 2;
+            attackModel.weapons[0].projectile = Game.instance.model.GetTowerFromId("DartMonkey-003").GetAttackModel().weapons[0].projectile.Duplicate();
+            //towerModel.GetWeapon().rate *= 0.5f;
+            //attackModel.weapons[0].projectile.SetHitCamo(true);
+            //towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(Game.instance.model.GetTowerFromId("Alchemist-030").GetAttackModel().weapons[0].projectile.GetBehavior<AddBehaviorToBloonModel>().Duplicate());
+            //towerModel.GetAttackModel().weapons[0].projectile.GetBehavior<AddBehaviorToBloonModel>().GetBehavior<DamageOverTimeModel>().immuneBloonProperties = BloonProperties.Lead;
+
+            var projectile = attackModel.weapons[0].projectile;
+            //projectile.pierce = 2;
+            //projectile.GetDamageModel().damage = 1;
 
             towerModel.range += 10;
             attackModel.range += 10;
@@ -54,7 +113,7 @@ namespace AltEevee.Upgrades
             //var fire = Game.instance.model.GetTower(TowerType.MortarMonkey, 2, 0, 2).GetAttackModel().weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetBehavior<AddBehaviorToBloonModel>();
             //towerModel.GetAttackModel().weapons[0].projectile.AddBehavior(fire);
             //towerModel.GetAttackModel().weapons[0].projectile.collisionPasses = new[] { 1, 0 };
-            towerModel.ApplyDisplay<FlareonDisplay>();
+            //towerModel.ApplyDisplay<GlaceonDisplay>();
         }
     }
     //public class FlareonDisplay:ModDisplay
